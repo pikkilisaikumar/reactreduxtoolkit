@@ -1,29 +1,50 @@
-import {Component} from 'react'
+import {useState} from 'react'
 
-import Header from './components/Header'
-import LandingSection from './components/LandingSection'
-import FeaturesSection from './components/FeaturesSection'
+import './App.css'
 
-class App extends Component {
-  state = {activeLanguage: 'EN'}
+import EachApp from './EachApp'
 
-  changeLanguage = activeLanguage => {
-    this.setState({activeLanguage})
-  }
+const usersList = [
+  {
+    id: 1,
+    name: 'Vivek',
+  },
+  {
+    id: 2,
+    name: 'Vani',
+  },
+  {
+    id: 3,
+    name: 'Tharun',
+  },
+  {
+    id: 4,
+    name: 'Durga',
+  },
+  {
+    id: 5,
+    name: 'Akshay',
+  },
+]
 
-  render() {
-    const {activeLanguage} = this.state
-    return (
-      <>
-        <Header
-          activeLanguage={activeLanguage}
-          changeLanguage={this.changeLanguage}
-        />
-        <LandingSection activeLanguage={activeLanguage} />
-        <FeaturesSection activeLanguage={activeLanguage} />
-      </>
-    )
-  }
+const App = () => {
+  const [name, setName] = useState('')
+
+  const users = usersList.filter(each =>
+    each.name.toLowerCase().includes(name.toLowerCase()),
+  )
+
+  return (
+    <div style={{textAlign: 'center'}}>
+      <h1>User Details</h1>
+      <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      <ul style={{padding: 0}}>
+        {users.map(each => (
+          <EachApp key={each.id} each={each} username={name} />
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default App
